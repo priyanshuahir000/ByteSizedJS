@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < squares.length; i++) {
     let total = 0;
     const isLeftEdge = i % width === 0;
-    const isRightEdge = 1 % width === width - 1;
+    const isRightEdge = i % width === width - 1;
     if (squares[i].classList.contains("valid")) {
       if (i > 0 && !isLeftEdge && squares[i - 1].classList.contains("bomb"))
         total++;
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!square.classList.contains("checked") && flags < bombAmount) {
       if (!square.classList.contains("flag")) {
         square.classList.add("flag");
-        square.innerHTML = " 🚩";
+        square.innerHTML = "&#x1F6A9;";
         flags++;
         flagsLeft.innerHTML = `Flags Left: ${bombAmount - flags}`;
         checkForWin();
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         square.classList.remove("flag");
         square.innerHTML = "";
         flags--;
-        flagsLeft.innerHTML = `Flags Left: ${bombAmount + flags}`;
+        flagsLeft.innerHTML = `Flags Left: ${bombAmount - flags}`;
       }
     }
   }
@@ -116,6 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (square.classList.contains("bomb")) {
       gameOver(square);
     } else {
+      square.classList.add("checked");
+
       let total = square.getAttribute("data");
       if (total != 0) {
         if (total == 1) square.classList.add("one");
@@ -127,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       checkSquare(square);
     }
-    square.classList.add("checked");
   }
 
   // Check neighboring squares
@@ -218,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // show all the bombs
     squares.forEach((square) => {
       if (square.classList.contains("bomb")) {
-        square.innerHTML = "💣";
+        square.innerHTML = "&#x1F4A3";
         square.classList.remove("bomb");
         square.classList.add("checked");
       }
