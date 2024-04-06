@@ -50,7 +50,6 @@ h1 {
 }
 
 .stack {
-
     height: 100%;
     aspect-ratio: 1;
     background: radial-gradient(hsl(var(--h) 100% 70%) 25%, transparent 50%);
