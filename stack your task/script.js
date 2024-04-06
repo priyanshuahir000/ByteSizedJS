@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ) {
     document.querySelector("#task").attributes.autofocus.value = true;
   }
+  if (localStorage.getItem("tasks") === null)
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   tasks = JSON.parse(localStorage.getItem("tasks"));
   if (tasks.length != 0) {
     document.body.removeChild(document.querySelector(".doodle"));
