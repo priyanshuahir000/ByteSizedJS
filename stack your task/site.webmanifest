@@ -1,0 +1,17 @@
+{
+  "name": "Stack for your task",
+  "short_name": "TaskStack",
+  "description": "A user-friendly web app for managing daily tasks in a stack format.",
+  "start_url": "/stack your task/index.html",
+  "display": "standalone",
+  "theme_color": "rgba(242, 218, 250, 0.888)",
+  "background_color": "#fff",
+  "categories": ["productivity", "tools", "utilities"],
+  "icons": [
+    {
+      "src": "Images/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
+}

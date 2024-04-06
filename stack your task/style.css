@@ -1,39 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-
-body {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
     display: grid;
     place-items: center;
     background: hsl(0 0% 10%);
-    min-height: 100vh;
     font-family: 'Inter', sans-serif;
 }
 
-.doodle {
-    position: absolute;
-    width: 30%;
+/* ---------- Handling Highlight color on click in mobile devices ---------- */
+img,
+a,
+button {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    max-width: 90%;
-    min-width: 30%;
-    min-height: 70vh;
-    margin: 20px auto;
-    box-sizing: border-box;
-    border-radius: 5px;
-    padding: 20px 20px 0 20px;
-}
+/* ---------- Heading Tag ---------- */
 
 h1 {
-    --font-size: clamp(2rem, 8vw + 1rem, 5rem);
     margin: 20px 0 0 0;
-    color: hsl(0 0% 100%);
-    font-size: var(--font-size);
+    color: #fff;
+    font-size: clamp(2rem, 8vw + 1rem, 5rem);
     position: relative;
     display: flex;
     align-items: flex-start;
@@ -43,62 +40,9 @@ h1 {
     background: black;
 }
 
-h1>span:first-of-type {
-    display: inline-block;
-    line-height: 0.8;
-}
-
-h1>span:nth-of-type(2) {
-    position: relative;
-}
-
-.tooltip {
-    font-size: 14px;
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    margin-left: 5px;
-}
-
-.tooltip-icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: #048BA8;
-    color: #fff;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 20px;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-
-}
-
-.tooltiptext {
-    visibility: hidden;
-    width: 300px;
-    background-color: #333;
-    font-size: 14px;
-    color: #ffffffaa;
-    text-align: center;
-    border-radius: 5px;
-    padding: 10px;
-    position: absolute;
-    z-index: 1;
-    top: 125%;
-    left: 50%;
-    margin-left: -100px;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
 .stacks {
     position: absolute;
     inset: 0;
-    background: white;
     mix-blend-mode: darken;
     filter: brightness(1);
     overflow: hidden;
@@ -106,7 +50,8 @@ h1>span:nth-of-type(2) {
 }
 
 .stack {
-    height: var(--size, 100%);
+
+    height: 100%;
     aspect-ratio: 1;
     background: radial-gradient(hsl(var(--h) 100% 70%) 25%, transparent 50%);
     position: absolute;
@@ -171,6 +116,69 @@ h1>span:nth-of-type(2) {
     }
 }
 
+
+/* ---------- Tooltip ---------- */
+
+.tooltip {
+    font-size: 1rem;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.tooltip-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #048BA8;
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+
+}
+
+.tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: #333;
+    color: #ffffffaa;
+    text-align: center;
+    border-radius: 5px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity ease-in-out 0.3s;
+}
+
+/* ---------- Doodle ---------- */
+.doodle {
+    position: absolute;
+    width: 30%;
+}
+
+/* ---------- Container ---------- */
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    max-width: 90%;
+    min-width: 30%;
+    min-height: 70vh;
+    margin: 20px auto;
+}
+
+/* ---------- Input Div ---------- */
+
 .top-div {
     margin: 2.5px 0;
     height: 50px;
@@ -180,7 +188,7 @@ h1>span:nth-of-type(2) {
     background-color: #2d2d2d;
     padding: 0 15px;
     border-radius: 14px;
-    border: 1px solid rgb(63, 63, 63);
+    border: 2px solid rgb(63, 63, 63);
 }
 
 .top-div:focus-within {
@@ -194,7 +202,7 @@ h1>span:nth-of-type(2) {
     outline: none;
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: 1.05rem;
 }
 
 #task:focus~#add-task svg path,
@@ -213,41 +221,24 @@ h1>span:nth-of-type(2) {
     align-items: center;
     justify-content: end;
     cursor: pointer;
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
 
 #add-task svg {
     height: 20px;
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
 
 #add-task svg path {
-    -webkit-transition: all 0.3s ease-out;
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
 
 #add-task:hover svg path {
-    fill: #3c3c3c;
+
     stroke: rgba(242, 218, 250, 0.888);
 }
 
-@keyframes buttonPulse {
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(1.05);
-    }
-}
+/* ---------- Tasks Div ---------- */
 
 .task-item {
     min-height: 50px;
@@ -300,10 +291,10 @@ h1>span:nth-of-type(2) {
 
 .task-item p {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 1rem;
     margin: 10px 0;
     color: hsl(0 0% 10%);
-    font-family: 'Inter', sans-serif;
+
 
 }
 
@@ -314,21 +305,21 @@ h1>span:nth-of-type(2) {
     margin-left: auto;
 }
 
-.task-item #clear-task path {
-    fill: hsl(0 0% 10%);
-}
-
 .popTask {
     background-color: transparent;
     border: none;
     color: hsl(0 0% 10%);
     cursor: pointer;
     padding: 0;
-    font-size: 18px;
+
 }
 
+/* ---------- Footer ---------- */
+
 .footer {
-    display: flex;
+    position: relative;
+    bottom: 10px;
+    display: inline-block;
     justify-content: center;
     align-items: center;
     color: #5a5a5a;
@@ -343,4 +334,62 @@ h1>span:nth-of-type(2) {
 .footer a:hover {
     color: #fff;
     text-decoration: underline;
+}
+
+/* responsive */
+@media screen and (max-width: 480px) {
+    body {
+        min-height: 100svh;
+    }
+
+    .container {
+        max-width: 90%;
+        min-width: 90%;
+        overflow: hidden;
+    }
+
+    .doodle {
+        width: 80%;
+    }
+
+    h1 {
+        margin-top: 0px;
+        font-size: clamp(1.5rem, 4vw + 1rem, 2rem);
+    }
+
+    .tooltip {
+        display: none;
+    }
+
+    .top-div {
+        padding: 0 5px;
+    }
+
+    .task-item {
+        padding: 0px 5px;
+    }
+
+    .footer {
+        font-size: 0.75rem;
+        position: absolute
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 90%;
+        min-width: 90%;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 8vw + 1rem, 8rem);
+    }
+
+    .top-div {
+        padding: 0 10px;
+    }
+
+    .task-item {
+        padding: 0px 10px;
+    }
 }

@@ -2,11 +2,21 @@ var currentPosition = 0;
 let tasks = [];
 var container = document.querySelector(".container");
 var topDiv = document.querySelector(".top-div");
+
+// Task Item Constructor
 function taskItem(task, position) {
   this.task = task;
   this.currentPosition = currentPosition;
 }
+
+// Fetch data from the local storage and display it on the DOM
 document.addEventListener("DOMContentLoaded", () => {
+  if (
+    navigator.userAgent.includes("Windows") ||
+    navigator.userAgent.includes("Mac")
+  ) {
+    document.querySelector("#task").attributes.autofocus.value = true;
+  }
   tasks = JSON.parse(localStorage.getItem("tasks"));
   if (tasks.length != 0) {
     document.body.removeChild(document.querySelector(".doodle"));
@@ -15,28 +25,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
+// Add Task on Enter Key Press
 document.querySelector("#task").addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     addTask();
   }
 });
+
+// Add Task to Local Storage
 function addTask() {
   if (document.querySelector(".doodle")) {
     document.body.removeChild(document.querySelector(".doodle"));
-  }
+  } // Remove Doodle
   const tempTask = new taskItem(
     document.querySelector("#task").value,
     currentPosition
   );
   tasks.push(tempTask);
-  console.log(tasks);
   currentPosition++;
   addTaskToDOM(tempTask);
   document.querySelector("#task").value = "";
-  document.querySelector("#task").focus();
   localStorage.setItem("tasks", JSON.stringify(tasks));
+  if (
+    navigator.userAgent.includes("Windows") ||
+    navigator.userAgent.includes("Mac")
+  ) {
+    document.querySelector("#task").attributes.autofocus.value = true;
+  }
 }
 
+// Add Task to DOM
 function addTaskToDOM(tempTask) {
   const taskItem = document.createElement("div");
   taskItem.classList.add("task-item");
@@ -45,6 +64,7 @@ function addTaskToDOM(tempTask) {
   container.insertBefore(taskItem, topDiv.nextSibling);
 }
 
+// Pop Task from DOM and Local Storage
 function popTask(position) {
   if (position != tasks.length - 1) {
     last = tasks[tasks.length - 1].currentPosition;
@@ -63,7 +83,6 @@ function popTask(position) {
     localStorage.setItem("tasks", JSON.stringify(tasks));
     return;
   }
-  console.log(position);
   document.querySelector(`.task-${position}`).style.animation =
     "taskSlideOut 0.5s ease-out forwards";
   setTimeout(() => {
