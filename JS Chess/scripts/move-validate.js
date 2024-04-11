@@ -17,7 +17,6 @@ function checkIfValidMove(target) {
         (startId + width - 1 === targetId && target.firstChild) ||
         (startId + width + 1 === targetId && target.firstChild)
       ) {
-        console.log(target);
         return true;
       } else {
         return false;

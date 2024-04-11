@@ -4,6 +4,9 @@ const gameBoard = document.querySelector("#gameboard");
 const playerDisplay = document.querySelector("#player");
 const infoDisplay = document.querySelector("#info-display");
 const width = 8;
+const move = new Audio("sounds/move.mp3");
+const capture = new Audio("sounds/capture.mp3");
+const wrongMove = new Audio("sounds/wrong-move.mp3");
 let playerGo = "black";
 playerDisplay.textContent = "black";
 const startPieces = [
@@ -125,9 +128,11 @@ function dragDrop(e) {
   const taken = e.target.classList.contains("piece");
   const valid = checkIfValidMove(e.target);
   const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo);
+  console.log(e.target);
   if (correctGo) {
     // must check this first
     if (takenByOpponent && valid) {
+      capture.play();
       e.target.parentNode.append(draggedElement);
       e.target.remove();
       checkForWin();
@@ -135,16 +140,22 @@ function dragDrop(e) {
       return;
     }
     if (taken && !takenByOpponent) {
+      wrongMove.play();
       infoDisplay.textContent = "You cant go there";
       setTimeout(() => (infoDisplay.textContent = ""), 2000);
       return;
     }
     if (valid) {
+      move.play();
       e.target.append(draggedElement);
       changePlayer();
       checkForWin();
       return;
     }
+  } else {
+    wrongMove.play();
+    infoDisplay.textContent = "Its not your turn";
+    setTimeout(() => (infoDisplay.textContent = ""), 2000);
   }
 }
 function changePlayer() {
@@ -175,7 +186,6 @@ function revertIds() {
 
 function checkForWin() {
   const kings = Array.from(document.querySelectorAll("#king"));
-  console.log(kings);
   if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
     infoDisplay.textContent = "Black wins!";
     const allSquares = document.querySelectorAll(".square");
