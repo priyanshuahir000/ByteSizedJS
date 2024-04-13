@@ -1,29 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
 
+:root {
+  --error: #ff0000;
+  --light-green: #629924;
+  --dark-blue: #293a49;
+  --light-blue: #3692e7;
+  --bg-color: #161512;
+  --font-color: #bababa;
+  --grey: #262421;
+  --white: #fff;
+  --black: #000;
+  --noto-font: "Noto Sans", sans-serif;
+  --roboto-font: "Roboto", sans-serif;
+}
+
+html {
+  font-size: 16px;
 }
 
 body {
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  background: hsl(0 0% 10%);
-  font-family: 'Inter', sans-serif;
+  background: var(--bg-color) linear-gradient(to bottom, hsl(37, 12%, 16%), hsl(37, 10%, 8%) 116px) no-repeat;
+  color: var(--font-color);
+  font-family: var(--noto-font);
+  overflow: hidden;
+}
+
+/* --------- navigation ---------- */
+nav {
+  padding: 2.5px 20px;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.logo:hover {
+  color: #629924;
 }
 
 
+.container {
+  height: calc(100vh - 64px);
+  display: grid;
+  grid-template-columns: 30% 35% 35%;
+  grid-column-gap: 0;
+}
+
+.centered-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 #gameboard {
-  width: 40%;
+  width: 100%;
   height: auto;
   aspect-ratio: 1/1;
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
 }
 
@@ -44,6 +90,10 @@ body {
 .square:hover {
   cursor: pointer;
   filter: saturate(2);
+}
+
+.marked {
+  filter: hue-rotate(60deg) saturate(1.5);
 }
 
 .square svg {
@@ -74,9 +124,172 @@ svg path {
 
 .square div .white {
   fill: #fff;
-
 }
 
 .display {
-  color: #fff;
+  width: 80%;
+  height: auto;
+  aspect-ratio: 3/1;
+  margin: 15% 10px;
+  background-color: var(--grey);
+  font-family: var(--noto-font);
+  font-weight: 400;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.display .playerDisplay {
+  background-color: var(--bg-color);
+  padding: 3px 0 3px 0;
+  transition: opacity 1s ease-in;
+  height: 28px;
+  /* Adjust this height according to your layout */
+  overflow: hidden;
+  /* Prevents the content from overflowing the fixed height */
+  transition: height 0.3s ease-in-out
+}
+
+.display .pieces-taken {
+  background-color: var(--bg-color);
+  padding: 3px 0 3px 0;
+  transition: opacity 1s ease-in;
+  transition: height 0.3s ease-in-out;
+
+  svg {
+    width: 2rem;
+    height: auto;
+    aspect-ratio: 1/1;
+    fill: var(--font-color);
+  }
+}
+
+.display .player {
+  padding: 8.4px;
+  line-height: inherit;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+}
+
+#player1 {
+  border-radius: 5px 5px 0 0;
+}
+
+#player2 {
+  border-radius: 0 0 5px 5px;
+}
+
+.display .player.turn {
+  background-color: var(--light-green);
+  color: var(--white);
+  transition: background-color 0.3s ease-in-out;
+
+  svg {
+    fill: var(--white) !important;
+  }
+}
+
+.display .player.wrong {
+  background-color: var(--error);
+  color: var(--white);
+  transition: background-color 0.3s ease-in-out;
+
+}
+
+.display .player svg {
+  width: 1.8rem;
+  fill: var(--light-green);
+  padding-right: 10px;
+  transition: fill 0.2s ease-in-out;
+}
+
+.display .player h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.display .info-display {
+  background-color: var(--grey);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.display .info-display::-webkit-scrollbar {
+  display: none;
+}
+
+.display .info-display div {
+  padding: 0;
+}
+
+
+.position-table {
+  width: 100%;
+  margin-top: 0px;
+}
+
+.position-table th,
+.position-table td {
+  padding: 5px;
+}
+
+.position-table td {
+  color: var(--font-color);
+}
+
+.position-table tr td:first-child {
+  background-color: #302e2c;
+  text-align: center;
+  width: 15%;
+}
+
+.position-table tr td:nth-child(2):hover,
+.position-table tr td:nth-child(3):hover {
+  color: var(--white);
+  background-color: var(--light-blue);
+}
+
+.position-table tr td.current-move {
+  color: var(--white);
+  background-color: var(--dark-blue);
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    grid-template-columns: 100%;
+  }
+
+  .centered-div,
+  .right-div {
+    justify-content: center;
+  }
+
+  #gameboard {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .display {
+    width: 100%;
+    margin: 10px;
+  }
+
+  .display .player {
+    padding: 5px;
+  }
+
+  .position-table tr td:first-child {
+    width: 30%;
+  }
+
+  .position-table tr td:nth-child(2):hover,
+  .position-table tr td:nth-child(3):hover {
+    color: var(--white);
+    background-color: var(--light-blue);
+  }
 }

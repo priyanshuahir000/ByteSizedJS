@@ -5,214 +5,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scripted Chess</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div id="gameboard" class="gameboard">
-    </div>
-    <div class="display">
-        <p>It is <span id="player"></span>'s go.</p>
-        <p id="info-display"></p>
-    </div>
+    <nav>
+        <h1 class="logo">Scripted Chess</h1>
+    </nav>
+    <div class="container">
+        <div class="left-div">
+        </div>
+        <div class="center-div">
+            <div id="gameboard" class="gameboard"></div>
+        </div>
+        <div class="right-div">
+            <div class="display">
+                <div class="pieces-taken" id="piecesTakenBy1"></div>
+                <div class="playerDisplay" id="playerDisplay1"></div>
+                <div class="player turn" id="player1">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path
+                            d="M54.2 202.9C123.2 136.7 216.8 96 320 96s196.8 40.7 265.8 106.9c12.8 12.2 33 11.8 45.2-.9s11.8-33-.9-45.2C549.7 79.5 440.4 32 320 32S90.3 79.5 9.8 156.7C-2.9 169-3.3 189.2 8.9 202s32.5 13.2 45.2 .9zM320 256c56.8 0 108.6 21.1 148.2 56c13.3 11.7 33.5 10.4 45.2-2.8s10.4-33.5-2.8-45.2C459.8 219.2 393 192 320 192s-139.8 27.2-190.5 72c-13.3 11.7-14.5 31.9-2.8 45.2s31.9 14.5 45.2 2.8c39.5-34.9 91.3-56 148.2-56zm64 160a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z" />
+                    </svg>
+                    <h3>Player 1</h3>
+                </div>
+                <div class="info-display" id="info-display">
+                    <div class="positon-display">
+                        <table class="position-table">
+                            <tbody>
 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div id="win"></div>
+                <div class="player" id="player2">
+                    <svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                        <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                        <path
+                            d="M54.2 202.9C123.2 136.7 216.8 96 320 96s196.8 40.7 265.8 106.9c12.8 12.2 33 11.8 45.2-.9s11.8-33-.9-45.2C549.7 79.5 440.4 32 320 32S90.3 79.5 9.8 156.7C-2.9 169-3.3 189.2 8.9 202s32.5 13.2 45.2 .9zM320 256c56.8 0 108.6 21.1 148.2 56c13.3 11.7 33.5 10.4 45.2-2.8s10.4-33.5-2.8-45.2C459.8 219.2 393 192 320 192s-139.8 27.2-190.5 72c-13.3 11.7-14.5 31.9-2.8 45.2s31.9 14.5 45.2 2.8c39.5-34.9 91.3-56 148.2-56zm64 160a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z" />
+                    </svg>
+                    <h3>Player 2</h3>
+                </div>
+                <div class="playerDisplay" id="playerDisplay2"></div>
+                <div class="pieces-taken" id="piecesTakenBy2"></div>
+            </div>
+        </div>
+    </div>
+    </div>
 
 </body>
 <script src="scripts/pieces.js"> </script>
 <script src="scripts/move-validate.js"> </script>
-<script src="scripts/app.js">// This file contains working of the gamea
-
-    const gameBoard = document.querySelector("#gameboard");
-    const playerDisplay = document.querySelector("#player");
-    const infoDisplay = document.querySelector("#info-display");
-    const width = 8;
-    let playerGo = "black";
-    playerDisplay.textContent = "black";
-    const startPieces = [
-        rook,
-        knight,
-        bishop,
-        queen,
-        king,
-        bishop,
-        knight,
-        rook,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        pawn,
-        rook,
-        knight,
-        bishop,
-        queen,
-        king,
-        bishop,
-        knight,
-        rook,
-    ];
-
-    function createBoard() {
-        startPieces.forEach((startPiece, i) => {
-            const square = document.createElement("div");
-            square.classList.add("square");
-            square.innerHTML = startPiece;
-            square.firstChild?.setAttribute("draggable", "true");
-            square.setAttribute("square-id", i);
-            // square.classList.add("beige");
-            const row = Math.floor((63 - i) / 8) + 1;
-            if (row % 2 === 0) {
-                square.classList.add(i % 2 === 0 ? "beige" : "brown");
-            } else {
-                square.classList.add(i % 2 === 0 ? "brown" : "beige");
-            }
-            gameBoard.append(square);
-            if (i <= 15) {
-                square.firstChild.firstChild.classList.add("black");
-            }
-            if (i >= 48) {
-                square.firstChild.firstChild.classList.add("white");
-            }
-        });
-    }
-    createBoard();
-
-    const allSquares = document.querySelectorAll(".square");
-
-    allSquares.forEach((square) => {
-        square.addEventListener("dragstart", dragStart);
-        square.addEventListener("dragover", dragOver);
-        square.addEventListener("drop", dragDrop);
-    });
-
-    let startPositionId;
-    let draggedElement;
-
-    function dragStart(e) {
-        startPositionId = e.target.parentNode.getAttribute("square-id");
-        draggedElement = e.target;
-    }
-
-    function dragOver(e) {
-        e.preventDefault();
-    }
-
-    function dragDrop(e) {
-        e.stopPropagation();
-        const correctGo = draggedElement.firstChild.classList.contains(playerGo);
-        const opponentGo = playerGo === "white" ? "black" : "white";
-        const taken = e.target.classList.contains("piece");
-        const valid = checkIfValidMove(e.target);
-        const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo);
-        if (correctGo) {
-            // must check this first
-            if (takenByOpponent && valid) {
-                e.target.parentNode.append(draggedElement);
-                e.target.remove();
-                checkForWin();
-                changePlayer();
-                return;
-            }
-            if (taken && !takenByOpponent) {
-                infoDisplay.textContent = "You cant go there";
-                setTimeout(() => (infoDisplay.textContent = ""), 2000);
-                return;
-            }
-            if (valid) {
-                e.target.append(draggedElement);
-                changePlayer();
-                checkForWin();
-                return;
-            }
-        }
-    }
-    function changePlayer() {
-        if (playerGo === "black") {
-            reverseIds();
-            playerGo = "white";
-            playerDisplay.textContent = "white";
-        } else {
-            revertIds();
-            playerGo = "black";
-            playerDisplay.textContent = "black";
-        }
-    }
-
-    function reverseIds() {
-        const allSquares = document.querySelectorAll(".square");
-        allSquares.forEach((square, i) => {
-            square.setAttribute("square-id", width * width - 1 - i);
-        });
-    }
-
-    function revertIds() {
-        const allSquares = document.querySelectorAll(".square");
-        allSquares.forEach((square, i) => {
-            square.setAttribute("square-id", i);
-        });
-    }
-
-    function checkForWin() {
-        const kings = Array.from(document.querySelectorAll("#king"));
-        console.log(kings);
-        if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
-            infoDisplay.textContent = "Black wins!";
-            const allSquares = document.querySelectorAll(".square");
-            allSquares.forEach((square) =>
-                square.firstChild?.setAttribute("draggable", false)
-            );
-        }
-        if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
-            infoDisplay.textContent = "White wins!";
-            const allSquares = document.querySelectorAll(".square");
-            allSquares.forEach((square) =>
-                square.firstChild?.setAttribute("draggable", false)
-            );
-        }
-    }
-</script>
+<script src="scripts/app.js"></script> <!--This file contains working of the game-->
 
 </html>
