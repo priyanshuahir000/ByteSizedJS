@@ -142,11 +142,11 @@ function dragDrop(e) {
     if (takenByOpponent && valid) {
       capture.play();
       markPosition(
-        touchStartPositionId,
+        startPositionId,
         e.target.parentNode.getAttribute("square-id")
       );
       const position = e.target.parentNode.getAttribute("square-id"); // To add to the table
-      e.target.parentNode.append(touchMovedElement);
+      e.target.parentNode.append(draggedElement);
       const takenPiece = e.target.firstChild;
       if (playerGo === "black") {
         piecesTakenBy1.push(takenPiece);
@@ -161,8 +161,8 @@ function dragDrop(e) {
       return;
     } else if (valid) {
       move.play();
-      e.target.append(touchMovedElement);
-      markPosition(touchStartPositionId, e.target.getAttribute("square-id"));
+      e.target.append(draggedElement);
+      markPosition(startPositionId, e.target.getAttribute("square-id"));
       changePlayer();
       checkForWin();
       addPosition(e.target.getAttribute("square-id"));
@@ -253,10 +253,12 @@ function checkForWin() {
   const kings = Array.from(document.querySelectorAll("#king"));
   if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
     win.textContent = "Black wins!";
+    celebrateVictory();
     playVictorySound();
   }
   if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
     win.textContent = "White wins!";
+    celebrateVictory();
     playVictorySound();
   }
 }
