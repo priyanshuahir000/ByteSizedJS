@@ -772,6 +772,7 @@ function checkIfValidMove(target) {
         return true;
       }
     default:
+      console.log("default");
       return false;
   }
 }

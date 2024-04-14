@@ -1,10 +1,12 @@
-// This file contains working of the gamea
+// This file contains working of the game
 
 const gameBoard = document.querySelector("#gameboard");
 const infoDisplay = document.querySelector("#info-display");
 const player1Display = document.querySelector("#playerDisplay1");
 const player2Display = document.querySelector("#playerDisplay2");
-const win = document.querySelector("#win");
+const rematchDisplay = document.querySelector("#rematch");
+const victoryDisplay1 = document.querySelector("#victoryDisplay1");
+const victoryDisplay2 = document.querySelector("#victoryDisplay2");
 const error = document.querySelector("#error");
 const table = document.querySelector(".position-table").firstElementChild;
 const width = 8;
@@ -83,6 +85,9 @@ const startPieces = [
   rook,
 ];
 
+let startPositionId;
+let draggedElement;
+
 function createBoard() {
   startPieces.forEach((startPiece, i) => {
     const square = document.createElement("div");
@@ -106,107 +111,110 @@ function createBoard() {
       square.firstChild.firstChild.classList.add("white");
     }
   });
-}
-createBoard();
+  const allSquares = document.querySelectorAll(".square");
 
-const allSquares = document.querySelectorAll(".square");
+  allSquares.forEach((square) => {
+    square.addEventListener("dragstart", dragStart);
+    square.addEventListener("dragover", dragOver);
+    square.addEventListener("drop", dragDrop);
+    square.addEventListener("touchstart", dragStart);
+    square.addEventListener("touchend", dragOver);
+    square.addEventListener("touchmove", dragDrop);
+  });
 
-allSquares.forEach((square) => {
-  square.addEventListener("dragstart", dragStart);
-  square.addEventListener("dragover", dragOver);
-  square.addEventListener("drop", dragDrop);
-});
+  function dragStart(e) {
+    startPositionId = e.target.parentNode.getAttribute("square-id");
+    draggedElement = e.target;
+  }
 
-let startPositionId;
-let draggedElement;
+  function dragOver(e) {
+    e.preventDefault();
+  }
 
-function dragStart(e) {
-  startPositionId = e.target.parentNode.getAttribute("square-id");
-  draggedElement = e.target;
-}
-
-function dragOver(e) {
-  e.preventDefault();
-}
-
-function dragDrop(e) {
-  e.stopPropagation();
-  unMarkPosition();
-  const correctGo = draggedElement.firstChild.classList.contains(playerGo);
-  const opponentGo = playerGo === "white" ? "black" : "white";
-  const taken = e.target.classList.contains("piece");
-  const valid = checkIfValidMove(e.target);
-  const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo);
-  if (correctGo) {
-    // must check this first
-    if (takenByOpponent && valid) {
-      capture.play();
-      markPosition(
-        startPositionId,
-        e.target.parentNode.getAttribute("square-id")
-      );
-      const position = e.target.parentNode.getAttribute("square-id"); // To add to the table
-      e.target.parentNode.append(draggedElement);
-      const takenPiece = e.target.firstChild;
-      if (playerGo === "black") {
-        piecesTakenBy1.push(takenPiece);
+  function dragDrop(e) {
+    e.stopPropagation();
+    unMarkPosition();
+    const correctGo = draggedElement.firstChild.classList.contains(playerGo);
+    const opponentGo = playerGo === "white" ? "black" : "white";
+    const taken = e.target.classList.contains("piece");
+    const valid = checkIfValidMove(e.target);
+    const takenByOpponent = e.target.firstChild?.classList.contains(opponentGo);
+    if (correctGo) {
+      // must check this first
+      if (takenByOpponent && valid) {
+        capture.play();
+        markPosition(
+          startPositionId,
+          e.target.parentNode.getAttribute("square-id")
+        );
+        const position = e.target.parentNode.getAttribute("square-id"); // To add to the table
+        e.target.parentNode.append(draggedElement);
+        const takenPiece = e.target.firstChild;
+        if (playerGo === "black") {
+          piecesTakenBy1.push(takenPiece);
+        } else {
+          piecesTakenBy2.push(takenPiece);
+        }
+        pieceTakenDisplay();
+        e.target.remove();
+        if (checkForWin()) {
+          return;
+        }
+        addPosition(position);
+        changePlayer();
+        return;
+      } else if (valid) {
+        move.play();
+        e.target.append(draggedElement);
+        markPosition(startPositionId, e.target.getAttribute("square-id"));
+        changePlayer();
+        checkForWin();
+        addPosition(e.target.getAttribute("square-id"));
+        return;
       } else {
-        piecesTakenBy2.push(takenPiece);
+        wrongMove.play();
+        const errorPlayerId = document.querySelector(".turn").id;
+        if (errorPlayerId === "player1") {
+          player1Display.textContent = "You cant go there";
+          document.querySelector("#player1").classList.add("wrong");
+          setTimeout(() => {
+            document.querySelector("#player1").classList.remove("wrong");
+          }, 300);
+          setTimeout(() => (player1Display.textContent = ""), 2000);
+        } else {
+          player2Display.textContent = "You cant go there";
+          document.querySelector("#player2").classList.add("wrong");
+          setTimeout(() => {
+            document.querySelector("#player2").classList.remove("wrong");
+          }, 300);
+          setTimeout(() => (player2Display.textContent = ""), 2000);
+        }
+        return;
       }
-      pieceTakenDisplay();
-      e.target.remove();
-      checkForWin();
-      addPosition(position);
-      changePlayer();
-      return;
-    } else if (valid) {
-      move.play();
-      e.target.append(draggedElement);
-      markPosition(startPositionId, e.target.getAttribute("square-id"));
-      changePlayer();
-      checkForWin();
-      addPosition(e.target.getAttribute("square-id"));
-      return;
     } else {
       wrongMove.play();
       const errorPlayerId = document.querySelector(".turn").id;
       if (errorPlayerId === "player1") {
-        player1Display.textContent = "You cant go there";
-        document.querySelector("#player1").classList.add("wrong");
-        setTimeout(() => {
-          document.querySelector("#player1").classList.remove("wrong");
-        }, 300);
-        setTimeout(() => (player1Display.textContent = ""), 2000);
-      } else {
-        player2Display.textContent = "You cant go there";
+        player2Display.textContent = "Its not your turn";
         document.querySelector("#player2").classList.add("wrong");
         setTimeout(() => {
           document.querySelector("#player2").classList.remove("wrong");
         }, 300);
         setTimeout(() => (player2Display.textContent = ""), 2000);
+      } else {
+        player1Display.textContent = "Its not your turn";
+        document.querySelector("#player1").classList.add("wrong");
+        setTimeout(() => {
+          document.querySelector("#player1").classList.remove("wrong");
+        }, 300);
+        setTimeout(() => (player1Display.textContent = ""), 2000);
       }
-      return;
-    }
-  } else {
-    wrongMove.play();
-    const errorPlayerId = document.querySelector(".turn").id;
-    if (errorPlayerId === "player1") {
-      player2Display.textContent = "Its not your turn";
-      document.querySelector("#player2").classList.add("wrong");
-      setTimeout(() => {
-        document.querySelector("#player2").classList.remove("wrong");
-      }, 300);
-      setTimeout(() => (player2Display.textContent = ""), 2000);
-    } else {
-      player1Display.textContent = "Its not your turn";
-      document.querySelector("#player1").classList.add("wrong");
-      setTimeout(() => {
-        document.querySelector("#player1").classList.remove("wrong");
-      }, 300);
-      setTimeout(() => (player1Display.textContent = ""), 2000);
     }
   }
 }
+
+createBoard();
+
 function changePlayer() {
   if (playerGo === "black") {
     reverseIds();
@@ -252,15 +260,20 @@ function revertIds() {
 function checkForWin() {
   const kings = Array.from(document.querySelectorAll("#king"));
   if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
-    win.textContent = "Black wins!";
-    celebrateVictory();
+    player1Display.textContent = "Winner!";
+    victoryDisplay1.innerHTML = "&#x1F451;";
+    rematchDisplay.innerHTML = '<button onclick="rematch()">Rematch</button>';
     playVictorySound();
+    return true;
   }
   if (!kings.some((king) => king.firstChild.classList.contains("black"))) {
-    win.textContent = "White wins!";
-    celebrateVictory();
+    player2Display.textContent = "Winner!";
+    victoryDisplay2.innerHTML = "&#x1F451;";
+    rematchDisplay.innerHTML = '<button onclick="rematch()">Rematch</button>';
     playVictorySound();
+    return true;
   }
+  return false;
 }
 
 function playVictorySound() {
@@ -269,6 +282,21 @@ function playVictorySound() {
   victory.play();
 }
 
+function rematch() {
+  gameBoard.innerHTML = "";
+  createBoard();
+  piecesTakenBy1 = [];
+  piecesTakenBy2 = [];
+  pieceTakenDisplay();
+  playerGo = "black";
+  player1Display.textContent = "Your turn";
+  player2Display.textContent = "";
+  rematchDisplay.innerHTML = "";
+  victoryDisplay1.innerHTML = "";
+  victoryDisplay2.innerHTML = "";
+  table.innerHTML = "";
+  step = 0;
+}
 function addPosition(finalId) {
   if (table.firstElementChild) {
     const td = document.querySelectorAll("td");

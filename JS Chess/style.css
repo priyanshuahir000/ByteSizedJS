@@ -16,6 +16,7 @@
   --grey: #262421;
   --white: #fff;
   --black: #000;
+  --white-shadow: #62992410;
   --noto-font: "Noto Sans", sans-serif;
   --roboto-font: "Roboto", sans-serif;
 }
@@ -33,7 +34,9 @@ body {
 
 /* --------- navigation ---------- */
 nav {
-  padding: 2.5px 20px;
+  padding: 2.5px;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
@@ -45,6 +48,11 @@ nav {
   color: #629924;
 }
 
+nav img {
+  width: 40px;
+  height: 40px;
+  margin: 5px 10px;
+}
 
 .container {
   height: calc(100vh - 64px);
@@ -53,11 +61,6 @@ nav {
   grid-column-gap: 0;
 }
 
-.centered-div {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 .right-div {
   display: flex;
@@ -142,9 +145,7 @@ svg path {
   padding: 3px 0 3px 0;
   transition: opacity 1s ease-in;
   height: 28px;
-  /* Adjust this height according to your layout */
   overflow: hidden;
-  /* Prevents the content from overflowing the fixed height */
   transition: height 0.3s ease-in-out
 }
 
@@ -207,6 +208,7 @@ svg path {
   font-size: 1.1rem;
   font-weight: 500;
   transition: color 0.2s ease-in-out;
+  padding-right: 5px;
 }
 
 .display .info-display {
@@ -259,24 +261,49 @@ svg path {
   background-color: var(--dark-blue);
 }
 
+#rematch button {
+  background-color: var(--light-green);
+  color: var(--white);
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#rematch button:hover {
+  background-color: var(--dark-blue);
+}
+
 @media screen and (max-width: 768px) {
   .container {
     grid-template-columns: 100%;
   }
 
-  .centered-div,
+  nav {
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  nav img {
+    margin: 5px;
+  }
+
+  .center-div,
   .right-div {
     justify-content: center;
   }
 
   #gameboard {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
   }
 
   .display {
     width: 100%;
-    margin: 10px;
+    margin: 0 10px;
   }
 
   .display .player {
@@ -291,5 +318,103 @@ svg path {
   .position-table tr td:nth-child(3):hover {
     color: var(--white);
     background-color: var(--light-blue);
+  }
+}
+
+/* ----- Mobile Devices ------ */
+
+.terminal-loader {
+  border: 0.1em solid #333;
+  background-color: #1a1a1a;
+  color: #0f0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1em;
+  padding: 1.5em 1em;
+  width: 12em;
+  margin: 100px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.terminal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5em;
+  background-color: #333;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  padding: 0 0.4em;
+  box-sizing: border-box;
+}
+
+.terminal-controls {
+  float: right;
+}
+
+.control {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-left: 0.4em;
+  border-radius: 50%;
+  background-color: #777;
+}
+
+.control.close {
+  background-color: #e33;
+}
+
+.control.minimize {
+  background-color: #ee0;
+}
+
+.control.maximize {
+  background-color: #0b0;
+}
+
+.terminal-title {
+  float: left;
+  line-height: 1.5em;
+  color: #eee;
+}
+
+.text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.2em solid green;
+  /* Cursor */
+  animation: typeAndDelete 3s steps(11) infinite,
+    blinkCursor 0.5s step-end infinite alternate;
+  margin-top: 1.5em;
+}
+
+@keyframes blinkCursor {
+  50% {
+    border-right-color: transparent;
+  }
+}
+
+@keyframes typeAndDelete {
+
+  0%,
+  10% {
+    width: 0;
+  }
+
+  45%,
+  55% {
+    width: 6.2em;
+  }
+
+  /* adjust width based on content */
+  90%,
+  100% {
+    width: 0;
   }
 }
