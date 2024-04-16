@@ -1,11 +1,14 @@
 // This file contains function to check for valid moves of pieces
 
 function checkIfValidMove(target) {
+  // Get the ID of the target square
   const targetId =
     Number(target.getAttribute("square-id")) ||
     Number(target.parentNode.getAttribute("square-id"));
   const startId = Number(startPositionId);
   const piece = draggedElement.id;
+  
+  // Switch statement to handle different types of pieces
   switch (piece) {
     case "pawn":
       const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];

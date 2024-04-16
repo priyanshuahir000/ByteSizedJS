@@ -2,38 +2,54 @@
 <html lang="en">
 
 <head>
+    <!-- Meta tags for character set and viewport -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scripted Chess</title>
+    <meta name="description"
+        content="Scripted Chess is a captivating digital chess game where players strategize and compete using scripted movements. With an intuitive interface and engaging gameplay, Scripted Chess offers an immersive experience for both beginners and seasoned chess enthusiasts. Challenge your friends, mastering the art of chess one move at a time. Dive into the world of Scripted Chess.">
 
+    <meta name="keywords" content="chess, game, strategy">
+    <meta name="author" content="Priyanshu Baraiya">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="Images/logo.svg">
+    <!-- Manifest -->
+    <link rel="manifest" href="site.webmanifest">
+    <title>Scripted Chess</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <!-- Navigation bar -->
     <nav>
         <img src="Images/logo.svg">
         <div class="logo">Scripted Chess</div>
     </nav>
+    <!-- Main content container -->
     <div class="container">
+        <!-- Left section (empty in this case) -->
         <div class="left-div">
         </div>
+        <!-- Center section (game board) -->
         <div class="center-div">
             <div id="gameboard" class="gameboard"></div>
         </div>
+        <!-- Right section (player info and pieces taken) -->
         <div class="right-div">
             <div class="display">
+                <!-- Player 1's section -->
                 <div class="pieces-taken" id="piecesTakenBy1"></div>
                 <div class="playerDisplay" id="playerDisplay1"></div>
                 <div class="player turn" id="player1">
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                         <path
                             d="M54.2 202.9C123.2 136.7 216.8 96 320 96s196.8 40.7 265.8 106.9c12.8 12.2 33 11.8 45.2-.9s11.8-33-.9-45.2C549.7 79.5 440.4 32 320 32S90.3 79.5 9.8 156.7C-2.9 169-3.3 189.2 8.9 202s32.5 13.2 45.2 .9zM320 256c56.8 0 108.6 21.1 148.2 56c13.3 11.7 33.5 10.4 45.2-2.8s10.4-33.5-2.8-45.2C459.8 219.2 393 192 320 192s-139.8 27.2-190.5 72c-13.3 11.7-14.5 31.9-2.8 45.2s31.9 14.5 45.2 2.8c39.5-34.9 91.3-56 148.2-56zm64 160a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z" />
                     </svg>
                     <h3>Player 1</h3>
                     <span id="victoryDisplay1"></span>
                 </div>
+                <!-- Information display section -->
                 <div class="info-display" id="info-display">
+                    <!-- Position display table -->
                     <div class="positon-display">
                         <table class="position-table">
                             <tbody>
@@ -42,7 +58,9 @@
                         </table>
                     </div>
                 </div>
+                <!-- Rematch button -->
                 <div id="rematch"></div>
+                <!-- Player 2's section -->
                 <div class="player" id="player2">
                     <svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 640 512">
                         <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
@@ -56,11 +74,17 @@
                 <div class="pieces-taken" id="piecesTakenBy2"></div>
             </div>
         </div>
-    </div>
-    </div>
 
+    </div>
+    <!---------- Footer ---------->
+    <div class="footer">
+        <p>Developed by <a href="https://www.linkedin.com/in/priyanshu-baraiya">Priyanshu Baraiya</a>
+    </div>
 </body>
+<!-- JavaScript files -->
 <script src="scripts/mobile.js"></script>
- <!--This file contains working of the game-->
+<script src="scripts/move-validate.js"></script>
+<script src="scripts/pieces.js"></script>
+<script src="scripts/app.js"></script>
 
 </html>

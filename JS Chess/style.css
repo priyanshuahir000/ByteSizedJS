@@ -1,11 +1,7 @@
+/* Import Google Fonts for the application */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
+/* Define custom CSS variables for colors and fonts */
 :root {
   --error: #ff0000;
   --light-green: #629924;
@@ -21,6 +17,12 @@
   --roboto-font: "Roboto", sans-serif;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html {
   font-size: 16px;
 }
@@ -30,9 +32,10 @@ body {
   color: var(--font-color);
   font-family: var(--noto-font);
   overflow: hidden;
+
 }
 
-/* --------- navigation ---------- */
+/* --------- Navigation ---------- */
 nav {
   padding: 2.5px;
   display: flex;
@@ -42,6 +45,7 @@ nav {
 .logo {
   font-size: 2rem;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .logo:hover {
@@ -54,20 +58,16 @@ nav img {
   margin: 5px 10px;
 }
 
+/* --------- Container ---------- */
+
 .container {
-  height: calc(100vh - 64px);
+  height: calc(100vh - 90px);
   display: grid;
   grid-template-columns: 30% 35% 35%;
   grid-column-gap: 0;
 }
 
-
-.right-div {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
+/* --------- Game board ---------- */
 #gameboard {
   width: 100%;
   height: auto;
@@ -127,6 +127,15 @@ svg path {
 
 .square div .white {
   fill: #fff;
+}
+
+
+/* --------- Right Panel ---------- */
+
+.right-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .display {
@@ -229,6 +238,7 @@ svg path {
   padding: 0;
 }
 
+/* --------- Position Table ---------- */
 
 .position-table {
   width: 100%;
@@ -261,6 +271,8 @@ svg path {
   background-color: var(--dark-blue);
 }
 
+/* --------- Rematch Button ---------- */
+
 #rematch button {
   background-color: var(--light-green);
   color: var(--white);
@@ -277,66 +289,44 @@ svg path {
   background-color: var(--dark-blue);
 }
 
-@media screen and (max-width: 768px) {
-  .container {
-    grid-template-columns: 100%;
-  }
+/* ---------- Footer ---------- */
 
-  nav {
-    margin-top: 10px;
-    justify-content: center;
-  }
-
-  nav img {
-    margin: 5px;
-  }
-
-  .center-div,
-  .right-div {
-    justify-content: center;
-  }
-
-  #gameboard {
-    width: 90%;
-    margin: 0 auto;
-  }
-
-  .display {
-    width: 100%;
-    margin: 0 10px;
-  }
-
-  .display .player {
-    padding: 5px;
-  }
-
-  .position-table tr td:first-child {
-    width: 30%;
-  }
-
-  .position-table tr td:nth-child(2):hover,
-  .position-table tr td:nth-child(3):hover {
-    color: var(--white);
-    background-color: var(--light-blue);
-  }
+.footer {
+  display: grid;
+  margin: 0 0 20px 0;
+  justify-content: center;
+  align-items: center;
+  color: var(--font-color);
+  font-weight: bolder;
 }
 
-/* ----- Mobile Devices ------ */
+.footer a {
+  color: var(--light-green);
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* --------- Custom Message for Mobile Devices ---------- */
 
 .terminal-loader {
-  border: 0.1em solid #333;
+  border: 0.1rem solid #333;
   background-color: #1a1a1a;
   color: #0f0;
   font-family: "Courier New", Courier, monospace;
-  font-size: 1em;
-  padding: 1.5em 1em;
-  width: 12em;
-  margin: 100px auto;
+  font-size: 1rem;
+  padding: 1.5rem 1rem;
+  margin-top: 15%;
+  width: 80%;
+  height: auto;
+  aspect-ratio: 2/1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   position: relative;
   overflow: hidden;
-  box-sizing: border-box;
 }
 
 .terminal-header {
@@ -344,11 +334,11 @@ svg path {
   top: 0;
   left: 0;
   right: 0;
-  height: 1.5em;
+  height: 1.5rem;
   background-color: #333;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
-  padding: 0 0.4em;
+  padding: 0 0.4rem;
   box-sizing: border-box;
 }
 
@@ -358,9 +348,9 @@ svg path {
 
 .control {
   display: inline-block;
-  width: 0.6em;
-  height: 0.6em;
-  margin-left: 0.4em;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-left: 0.4rem;
   border-radius: 50%;
   background-color: #777;
 }
@@ -379,7 +369,7 @@ svg path {
 
 .terminal-title {
   float: left;
-  line-height: 1.5em;
+  line-height: 1.5rem;
   color: #eee;
 }
 
@@ -387,11 +377,10 @@ svg path {
   display: inline-block;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 0.2em solid green;
-  /* Cursor */
+  border-right: 0.2rem solid green;
   animation: typeAndDelete 3s steps(11) infinite,
     blinkCursor 0.5s step-end infinite alternate;
-  margin-top: 1.5em;
+  margin-top: 1.5rem;
 }
 
 @keyframes blinkCursor {
@@ -400,6 +389,7 @@ svg path {
   }
 }
 
+
 @keyframes typeAndDelete {
 
   0%,
@@ -407,14 +397,42 @@ svg path {
     width: 0;
   }
 
-  45%,
-  55% {
-    width: 6.2em;
+  20%,
+  30% {
+    width: 20%;
   }
 
-  /* adjust width based on content */
-  90%,
+  40%,
+  50% {
+    width: 35%;
+  }
+
+  60%,
+  70% {
+    width: 70%;
+  }
+
+  95%,
   100% {
     width: 0;
+  }
+}
+
+/* ----- Responsiveness ------ */
+
+@media screen and (max-width: 768px) {
+  .container {
+    height: calc(100svh - 100px);
+    grid-template-columns: 100%;
+    justify-items: center;
+  }
+
+  nav {
+    margin-top: 10px;
+    justify-content: center;
+  }
+
+  nav img {
+    margin: 5px;
   }
 }

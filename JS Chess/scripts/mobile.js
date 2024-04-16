@@ -1,10 +1,7 @@
-function loadScript(src, onLoad) {
-  const script = document.createElement("script");
-  script.src = src;
-  script.onload = onLoad;
-  document.head.appendChild(script);
-}
-
+/**
+ * Checks if the current device is a mobile device.
+ * @returns {boolean} Returns true if the device is a mobile device, otherwise returns false.
+ */
 function isMobileDevice() {
   const userAgent = navigator.userAgent.toLowerCase();
   const mobileKeywords = [
@@ -20,7 +17,9 @@ function isMobileDevice() {
 }
 
 if (isMobileDevice()) {
-  document.querySelector("body").innerHTML = `<div class="terminal-loader">
+  document.querySelector(
+    ".container"
+  ).innerHTML = `<div class="terminal-loader">
     <div class="terminal-header">
       <div class="terminal-title">Status</div>
       <div class="terminal-controls">
@@ -29,10 +28,6 @@ if (isMobileDevice()) {
         <div class="control maximize"></div>
       </div>
     </div>
-    <div class="text">Sorry but this game is<br> not supported on this device.<br>Try using a desktop.</div>
+    <div class="text">Device not Supported!</div>
   </div>`;
-} else {
-  loadScript("scripts/pieces.js");
-  loadScript("scripts/move-validate.js");
-  loadScript("scripts/app.js");
 }

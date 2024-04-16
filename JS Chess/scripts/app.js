@@ -1,5 +1,7 @@
-// This file contains working of the game
+// This JavaScript file implements the functionality for a Chess game application
 
+
+// Variables to select various elements from the HTML document
 const gameBoard = document.querySelector("#gameboard");
 const infoDisplay = document.querySelector("#info-display");
 const player1Display = document.querySelector("#playerDisplay1");
@@ -9,15 +11,29 @@ const victoryDisplay1 = document.querySelector("#victoryDisplay1");
 const victoryDisplay2 = document.querySelector("#victoryDisplay2");
 const error = document.querySelector("#error");
 const table = document.querySelector(".position-table").firstElementChild;
+
+// Board dimensions
 const width = 8;
+
+// Arrays to store pieces taken by each player
 let piecesTakenBy1 = [];
 let piecesTakenBy2 = [];
+
+// Variable to track the current step in the game
 let step = 0;
+
+// Audio elements for different game actions
 const move = new Audio("sounds/move.mp3");
 const capture = new Audio("sounds/capture.mp3");
 const wrongMove = new Audio("sounds/wrong-move.mp3");
+
+// Variable to track whose turn it is (initially set to black)
 let playerGo = "black";
+
+// Initial display text for players
 player1Display.textContent = "Your turn";
+
+// Array representing the initial setup of pieces on the board
 const startPieces = [
   rook,
   knight,
@@ -85,9 +101,11 @@ const startPieces = [
   rook,
 ];
 
+// Variables to track the starting position and the dragged element during a move
 let startPositionId;
 let draggedElement;
 
+// Function to create the game board and set up event listeners for drag and touch events
 function createBoard() {
   startPieces.forEach((startPiece, i) => {
     const square = document.createElement("div");
@@ -215,6 +233,7 @@ function createBoard() {
 
 createBoard();
 
+// Function to handle player turn changes
 function changePlayer() {
   if (playerGo === "black") {
     reverseIds();
@@ -231,6 +250,7 @@ function changePlayer() {
   document.querySelector("#player2").classList.toggle("turn");
 }
 
+// Function to mark positions on the board during a move
 function markPosition(startId, finalId) {
   const start = document.querySelector(`[square-id="${startId}"]`);
   const final = document.querySelector(`[square-id="${finalId}"]`);
@@ -238,11 +258,13 @@ function markPosition(startId, finalId) {
   final.classList.add("marked");
 }
 
+// Function to unmark positions on the board
 function unMarkPosition() {
   const marked = document.querySelectorAll(".marked");
   marked.forEach((mark) => mark.classList.remove("marked"));
 }
 
+// Function to reverse square IDs when changing player turn
 function reverseIds() {
   const allSquares = document.querySelectorAll(".square");
   allSquares.forEach((square, i) => {
@@ -250,6 +272,7 @@ function reverseIds() {
   });
 }
 
+// Function to revert square IDs when changing player turn
 function revertIds() {
   const allSquares = document.querySelectorAll(".square");
   allSquares.forEach((square, i) => {
@@ -257,6 +280,7 @@ function revertIds() {
   });
 }
 
+// Function to check for a win condition
 function checkForWin() {
   const kings = Array.from(document.querySelectorAll("#king"));
   if (!kings.some((king) => king.firstChild.classList.contains("white"))) {
@@ -276,12 +300,14 @@ function checkForWin() {
   return false;
 }
 
+// Function to play a random victory sound
 function playVictorySound() {
   const random = Math.floor(Math.random() * 5 + 1);
   const victory = new Audio(`sounds/victory${random}.mp3`);
   victory.play();
 }
 
+// Function to reset the game for a rematch
 function rematch() {
   gameBoard.innerHTML = "";
   createBoard();
@@ -297,6 +323,8 @@ function rematch() {
   table.innerHTML = "";
   step = 0;
 }
+
+// Function to add the current move to the position table
 function addPosition(finalId) {
   if (table.firstElementChild) {
     const td = document.querySelectorAll("td");
@@ -323,6 +351,7 @@ function addPosition(finalId) {
   infoDisplay.scrollTop = infoDisplay.scrollHeight; // Scroll to the end of the table
 }
 
+// Function to convert position ID to algebraic notation
 function getPosition(positionId) {
   const row = Math.floor(positionId / width) + 1;
   const column = (positionId % width) + 1;
@@ -346,6 +375,7 @@ function getPosition(positionId) {
   }
 }
 
+// Function to update the display of pieces taken by each player
 function pieceTakenDisplay() {
   const taken1 = document.querySelector("#piecesTakenBy1");
   const taken2 = document.querySelector("#piecesTakenBy2");

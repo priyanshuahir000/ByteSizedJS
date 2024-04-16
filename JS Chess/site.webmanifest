@@ -1,0 +1,17 @@
+{
+  "name": "Scripted Chess",
+  "short_name": "Chess",
+  "description": "Enjoy a classic game of chess online with Scripted Chess. Test your strategic skills against an AI or challenge friends in multiplayer mode.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#629924",
+  "background_color": "#161512",
+  "categories": ["games", "strategy", "entertainment"],
+  "icons": [
+    {
+      "src": "Images/logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    }
+  ]
+}
