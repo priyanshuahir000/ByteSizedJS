@@ -2,7 +2,7 @@
   "name": "Scripted Chess",
   "short_name": "Chess",
   "description": "Enjoy a classic game of chess online with Scripted Chess. Test your strategic skills against an AI or challenge friends in multiplayer mode.",
-  "start_url": "/index.html",
+  "start_url": "/Scripted Chess/index.html",
   "display": "standalone",
   "theme_color": "#629924",
   "background_color": "#161512",
